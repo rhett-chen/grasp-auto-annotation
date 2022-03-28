@@ -55,57 +55,6 @@ def generate_object_grasp(grasp_points, num_views=300, num_angles=12, num_depths
     return grasp_poses
 
 
-def generate_object_grasp_step_by_step(grasp_points, num_views=300, num_angles=12, num_depths=4, num_widths=8):
-    """ Auto-labeling the grasp pose step by step.
-
-    Args:
-        grasp_points: [numpy.ndarray, (N,3), np.float32], grasp points obtained from the original point cloud using the
-                      voxel down sampling method.
-        num_views: int, num of approaching directions.
-        num_angles: int, num of in-plane rotation angles in 0~pi.
-        num_depths: int, num of depth, depths: 0.01, 0.02, ... , num_depths*0.01.
-        num_widths: int, num of width, widths: 0.03, 0.04, ... , num_widths*0.01+0.02.
-
-    Returns:
-        grasp_poses_all, [numpy.ndarray, (num_grasp,17), np.float32], generated grasp pose in GraspNetAPI format,
-            (num_grasp,17) can be reshaped to (num_points, NUM_VIEWS, NUM_ANGLES, NUM_DEPTHS, NUM_WIDTHS, 17).
-    """
-    print('\nGenerating object grasps!!!')
-    num_points = grasp_points.shape[0]
-    angles = np.array([np.pi / num_angles * i for i in range(num_angles)], dtype=np.float32)
-    views = generate_views(num_views)  # num of views, (300,3), np.float32
-    depths = np.array([0.01 * i for i in range(1, num_depths + 1)], dtype=np.float32)
-    widths = np.array([0.01 * i for i in range(3, num_widths + 3)], dtype=np.float32)
-
-    views_repeat = views.repeat(num_angles, 0)  # (300*12,3)
-    angles_repeat = angles.reshape(1, num_angles).repeat(num_views, 0).reshape(-1)  # (300*12,)
-    grasp_poses_va = batch_viewpoint_params_to_matrix(-views_repeat, angles_repeat).reshape(-1, 9)  # (300*12, 9)
-
-    grasp_poses_va_repeat = grasp_poses_va.repeat(num_depths, 0)  # (300*12*4, 9)
-    depths_repeat = depths.reshape(1, num_depths).repeat(num_views * num_angles, 0).reshape(-1, 1)  # (300*12*4,)
-    heights_repeat = np.ones_like(depths_repeat) * 0.02  # (300*12*4,)
-    grasp_poses_hdva = np.concatenate([heights_repeat, depths_repeat, grasp_poses_va_repeat], axis=1)  # (300*12*4, 11)
-    del depths_repeat, grasp_poses_va_repeat, heights_repeat
-    gc.collect()
-
-    widths_repeat = widths.reshape(1, num_widths).repeat(num_views * num_angles * num_depths, 0).reshape(-1, 1)  # (300*12*4*9,)
-    scores_repeat = np.zeros_like(widths_repeat)  # (300*12*4*12,)
-    grasp_poses_hdva_repeat = grasp_poses_hdva.repeat(num_widths, 0)  # (300*12*4*9, 11)
-    grasp_poses_swhdva = np.concatenate([scores_repeat, widths_repeat,
-                                         grasp_poses_hdva_repeat], axis=1)  # (300*12*4*9, 13)
-    del grasp_poses_hdva_repeat, scores_repeat, widths_repeat
-    gc.collect()
-
-    grasp_points_repeat = grasp_points.repeat(num_views * num_angles * num_depths * num_widths, 0)
-    objects_id_repeat = -1 * np.ones((grasp_points_repeat.shape[0], 1))
-    grasp_poses_swhdva_repeat = grasp_poses_swhdva.reshape(
-        (1, num_views * num_angles * num_depths * num_widths, 13)).repeat(num_points, 0).reshape(-1, 13)
-    grasp_poses = np.concatenate([grasp_poses_swhdva_repeat, grasp_points_repeat, objects_id_repeat], axis=1)
-    del grasp_points_repeat, objects_id_repeat, grasp_poses_swhdva_repeat
-    print('\tflattened grasp pose shape: ', grasp_poses.shape)
-    return grasp_poses
-
-
 def eval_object_grasp(object_pc, grasp_poses, dexnet_model):
     """ Return object level grasp score in GraspNetAPI format.
 
