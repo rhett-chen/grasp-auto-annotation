@@ -15,4 +15,4 @@
 logs
 **/.idea/
 *.tar
-**/model_temp
+*.sdf
