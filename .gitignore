@@ -2,7 +2,6 @@
 *.ipynb
 **/.ipynb_checkpoints/**
 *.npy
-*.npz
 **/.vscode/**
 **/log*/**
 **/dump*/**

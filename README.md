@@ -54,7 +54,7 @@ If object model doesn't contain .sdf file,  generate .sdf from .obj use generate
 
 ### Step3
 
-Set relevant arguments in auto_annotaton/options.py.  
+Set relevant arguments in auto_annotaton/options.py.  The default parameters here are the recommended parameters.
 
 ### Step4
 
@@ -85,7 +85,7 @@ python gen_pickle_dexmodel.py
 
 ## Results
 
-Results "In repo" report the model performance of my results without collision detection.
+We show the grasp label annotation results of large_marker object in OCRTOC dataset. When annotating this object, we set num_views=100, num_angles=3,  num_depth=3, and we randomly select only one grasp point for annotaion in the example. ![](./example/large_marker.png)
 
 ## Acknowledgement
 
