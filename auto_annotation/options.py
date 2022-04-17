@@ -8,12 +8,12 @@ parser.add_argument('--mesh_point_num', type=int, default=6000,
                     help='num of sampling points from object mesh, used for collision detection and grasp points sampling')
 parser.add_argument('--max_grasp_points', type=int, default=1200, help='maximum grasp points num')
 parser.add_argument('--voxel_size_gp', type=float, default=0.006, help='voxel size for grasp points sampling')
-parser.add_argument('--voxel_size_cd', type=float, default=0.002, help='voxel size for collision detection')
+parser.add_argument('--voxel_size_cd', type=float, default=0.003, help='voxel size for collision detection')
 parser.add_argument('--obj_list', type=str, default='../example/object_name_list.txt', help='objects need to be labeled')
 parser.add_argument('--num_views', type=int, default=300, help='num of approaching directions')
 parser.add_argument('--num_angles', type=int, default=12, help='num of in-plane rotation angles in 0~pi')
 parser.add_argument('--num_depths', type=int, default=4, help='num of depth, [0.01, 0.02, ... , num_depths*0.01]')
-parser.add_argument('--max_width', type=float, default=0.16, help='max grasp width, for v2')
+parser.add_argument('--max_width', type=float, default=0.12, help='max grasp width, for v2')
 parser.add_argument('--num_widths', type=int, default=8, help='num of widths, [0.03, 0.04, ..., num_widths*0.01], for v1')
 
 # arguments for loading object grasp

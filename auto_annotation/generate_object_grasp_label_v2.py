@@ -50,7 +50,7 @@ def generate_object_grasps(grasp_points, num_views=300, num_angles=12, num_depth
     return grasp_poses  # np.float32
 
 
-def generate_grasp_widths_scores(object_pc, grasp_poses, dexnet_model, max_width=0.16):
+def generate_grasp_widths_scores(object_pc, grasp_poses, dexnet_model, max_width=0.12):
     """ Generate grasp width and object-level grasp score.
 
     Args:
@@ -105,7 +105,7 @@ def generate_grasp_widths_scores(object_pc, grasp_poses, dexnet_model, max_width
     return np.array(scores).astype(np.float32), grasp_widths
 
 
-def get_widths_and_dexgrasps(grasps, model, max_width=0.16, empty_thresh=10):
+def get_widths_and_dexgrasps(grasps, model, max_width=0.12, empty_thresh=10):
     """ Return grasp widths and dexgrasps, the width will be determined through collision/empty detection according
     the grasps, dexgrasp is None if grasp pose is collision or empty.
 
@@ -122,7 +122,7 @@ def get_widths_and_dexgrasps(grasps, model, max_width=0.16, empty_thresh=10):
     height = 0.02
     depth_base = 0.02
     finger_width = 0.01
-    bottom_thickness = 0.06
+    bottom_thickness = 0.1
     num_grasps = len(grasps)
     if num_grasps == 0:
         return None, None
@@ -189,7 +189,7 @@ def get_widths_and_dexgrasps(grasps, model, max_width=0.16, empty_thresh=10):
     return dexgrasps, grasp_widths
 
 
-def analyze_width(points_in_gripper, hole_size=0.016, loose_factor=0.004):
+def analyze_width(points_in_gripper, hole_size=0.018, loose_factor=0.004):
     """ Analyze width according the points in gripper.
 
     Args:
