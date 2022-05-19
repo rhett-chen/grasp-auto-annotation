@@ -35,18 +35,18 @@ make
 
 ### Step1
 
-Organize your data as GraspNet1-billion format. Take [OCRTOC dataset](https://github.com/OCRTOC/OCRTOC_dataset_toolkit) as example:
+Organize your data as GraspNet1-billion format. Take [OCRTOC dataset](https://github.com/OCRTOC/OCRTOC_dataset_toolkit) as example:  
 | -- ocrtoc  
-      | -- models  
-             | -- objectname1  
-                   | -- textured.obj  
-                   | -- textured.ply  
-                   | -- textured.sdf  
-             | -- objectname2  
-             | -- ... ...  
-       | -- grasp_labels(to be generated)  
-             | -- objectname1_labels.npz  
-       | -- scenes    
+&emsp;&emsp;| -- models  
+&emsp;&emsp;&emsp;&emsp;| -- objectname1  
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;| -- textured.obj  
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;| -- textured.ply  
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;| -- textured.sdf  
+&emsp;&emsp;&emsp;&emsp;| -- objectname2  
+&emsp;&emsp;&emsp;&emsp;| -- ... ...  
+&emsp;&emsp;| -- grasp_labels(to be generated)  
+&emsp;&emsp;&emsp;&emsp;| -- objectname1_labels.npz  
+&emsp;&emsp;| -- scenes    
 
 ### Step2
 
