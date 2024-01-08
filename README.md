@@ -1,4 +1,4 @@
-# Grasp Label Auto-annotation
+# (Deprecated!!!) Grasp Label Auto-annotation
 
 Object grasp label dense annotation based on graspnetAPI. Use the same annotation format as GraspNet1-billion dataset.
 
